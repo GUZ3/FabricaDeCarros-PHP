@@ -1,0 +1,83 @@
+🚗 Fábrica de Carros
+
+Sistema simples em PHP para simular a fabricação e venda de carros, aplicando conceitos de orientação a objetos e manipulação de sessões.
+
+📌 Sobre o Projeto
+
+Este projeto foi desenvolvido com foco em prática de lógica e estrutura MVC simples em PHP.
+
+A aplicação permite criar, visualizar e vender carros, mantendo um controle de estoque em memória utilizando sessões.
+
+🧱 Estrutura do Projeto
+📁 controllers
+ └── FabricaController.php
+
+📁 models
+ ├── Fabrica.php
+ └── Carro.php
+
+📁 views
+ ├── fabricar.php
+ ├── vender.php
+ └── listar.php
+
+📄 index.php
+⚙️ Funcionalidades
+🚘 Fabricar carros
+Cria novos carros
+Adiciona ao estoque
+📋 Listar carros
+Exibe todos os carros disponíveis
+💰 Vender carros
+Seleciona um carro específico
+Remove do estoque após a venda
+🧠 Lógica Utilizada
+Getters do modelo
+public function getModelo()
+{
+    return $this->modelo;
+}
+
+public function getCor()
+{
+    return $this->cor;
+}
+Remoção de carro por seleção
+public function vender($index)
+{
+    if (isset($_SESSION['estoque'][$index])) {
+        unset($_SESSION['estoque'][$index]);
+        $_SESSION['estoque'] = array_values($_SESSION['estoque']);
+        return true;
+    }
+    return false;
+}
+🎯 Objetivos de Aprendizado
+Praticar PHP com orientação a objetos
+Trabalhar com estrutura MVC básica
+Manipular dados com $_SESSION
+Criar fluxo completo (criar → listar → vender)
+🛠️ Tecnologias Utilizadas
+Tecnologia	Descrição
+PHP	Lógica da aplicação
+HTML	Estrutura das páginas
+CSS	Estilização
+Session	Armazenamento temporário
+▶️ Como Executar
+Clone o repositório:
+git clone https://github.com/seu-usuario/fabrica-carros.git
+Coloque em um servidor local:
+XAMPP / Laragon / WAMP
+Acesse:
+http://localhost/fabrica-carros
+🚀 Melhorias Futuras
+
+Adicionar ID único para cada carro
+
+Persistência com banco de dados
+
+Interface com Bootstrap
+
+Exclusão direta na listagem
+
+API REST

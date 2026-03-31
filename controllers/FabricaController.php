@@ -30,18 +30,23 @@ class FabricaController
 
     public function vender()
     {
-        $vendido = $this->fabrica->vender();
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $index = $_POST['carro'] ?? null;
+
+        $vendido = $this->fabrica->vender($index);
 
         if ($vendido) {
             $_SESSION['mensagem'] = "Carro vendido com sucesso!";
             $_SESSION['mensagem_tipo'] = 'sucesso';
         } else {
-            $_SESSION['mensagem'] = "Nenhum carro em estoque para vender.";
+            $_SESSION['mensagem'] = "Selecione um carro válido.";
             $_SESSION['mensagem_tipo'] = 'erro';
         }
-
-        include __DIR__ . '/../views/vender.php';
     }
+
+    $carros = $this->fabrica->listar();
+    include __DIR__ . '/../views/vender.php';
+    }   
 
     public function listar()
     {

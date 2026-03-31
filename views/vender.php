@@ -25,11 +25,27 @@
             </div>
         <?php endif; ?>
 
-        <div class="card">
-            <h2>Vender carro</h2>
-            <p>Use o botão abaixo para vender o próximo carro do estoque.</p>
-            <a href="index.php?acao=vender" class="btn">Vender próximo carro</a>
-        </div>
+    <div class="card">
+    <h2>Vender carro</h2>
+
+    <?php if (!empty($carros)): ?>
+        <form method="POST">
+            <label for="carro">Selecione o carro:</label>
+
+            <select name="carro" required>
+                <?php foreach ($carros as $index => $carro): ?>
+                    <option value="<?= $index ?>">
+                        <?= htmlspecialchars($carro->getModelo()) ?> (<?= htmlspecialchars($carro->getCor()) ?>)
+                    </option>
+                <?php endforeach; ?>
+            </select>
+
+            <button type="submit" class="btn">Vender</button>
+        </form>
+    <?php else: ?>
+        <p>Não há carros disponíveis para venda.</p>
+    <?php endif; ?>
+    </div>
     </div>
 </body>
 

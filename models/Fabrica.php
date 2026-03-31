@@ -8,13 +8,14 @@ class Fabrica
         $_SESSION['estoque'][] = $carro;
     }
 
-    public function vender()
+    public function vender($index)
     {
-        if (!empty($_SESSION['estoque'])) {
-            array_shift($_SESSION['estoque']);
+        if (isset($_SESSION['estoque'][$index])) {
+            unset($_SESSION['estoque'][$index]);
+            $_SESSION['estoque'] = array_values($_SESSION['estoque']); // reindexa
             return true;
         }
-        return false;
+    return false;
     }
 
     public function listar()
