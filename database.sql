@@ -1,0 +1,8 @@
+CREATE DATABASE IF NOT EXISTS fabricadecarros CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE fabricadecarros;
+
+CREATE TABLE IF NOT EXISTS carros (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    modelo VARCHAR(255) NOT NULL,
+    cor VARCHAR(255) NOT NULL
+);

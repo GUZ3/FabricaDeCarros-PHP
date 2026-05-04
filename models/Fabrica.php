@@ -1,25 +1,50 @@
 <?php
 
+require_once __DIR__ . '/Database.php';
+require_once __DIR__ . '/Carro.php';
+
 class Fabrica
 {
     public function fabricar($modelo, $cor)
     {
-        $carro = new Carro($modelo, $cor);
-        $_SESSION['estoque'][] = $carro;
+        $conn = Database::connect();
+        $stmt = $conn->prepare('INSERT INTO carros (modelo, cor) VALUES (?, ?)');
+        $stmt->bind_param('ss', $modelo, $cor);
+        $stmt->execute();
+        $stmt->close();
+        $conn->close();
     }
 
-    public function vender($index)
+    public function vender($id)
     {
-        if (isset($_SESSION['estoque'][$index])) {
-            unset($_SESSION['estoque'][$index]);
-            $_SESSION['estoque'] = array_values($_SESSION['estoque']); // reindexa
-            return true;
+        if (!is_numeric($id)) {
+            return false;
         }
-    return false;
+
+        $conn = Database::connect();
+        $stmt = $conn->prepare('DELETE FROM carros WHERE id = ?');
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $deleted = $stmt->affected_rows > 0;
+        $stmt->close();
+        $conn->close();
+
+        return $deleted;
     }
 
     public function listar()
     {
-        return $_SESSION['estoque'] ?? [];
+        $conn = Database::connect();
+        $result = $conn->query('SELECT id, modelo, cor FROM carros ORDER BY id ASC');
+
+        $carros = [];
+        while ($row = $result->fetch_assoc()) {
+            $carros[] = new Carro($row['modelo'], $row['cor'], $row['id']);
+        }
+
+        $result->free();
+        $conn->close();
+
+        return $carros;
     }
 }

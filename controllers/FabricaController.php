@@ -11,17 +11,20 @@ class FabricaController
 
     public function fabricar()
     {
+        $mensagem = '';
+        $mensagem_tipo = '';
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $modelo = trim($_POST['modelo']);
             $cor = trim($_POST['cor']);
 
             if ($modelo !== '' && $cor !== '') {
                 $this->fabrica->fabricar($modelo, $cor);
-                $_SESSION['mensagem'] = "Carro <strong>{$modelo}</strong> ({$cor}) fabricado com sucesso!";
-                $_SESSION['mensagem_tipo'] = 'sucesso';
+                $mensagem = "Carro <strong>{$modelo}</strong> ({$cor}) fabricado com sucesso!";
+                $mensagem_tipo = 'sucesso';
             } else {
-                $_SESSION['mensagem'] = "Preencha todos os campos antes de fabricar.";
-                $_SESSION['mensagem_tipo'] = 'erro';
+                $mensagem = "Preencha todos os campos antes de fabricar.";
+                $mensagem_tipo = 'erro';
             }
         }
 
@@ -30,23 +33,26 @@ class FabricaController
 
     public function vender()
     {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $index = $_POST['carro'] ?? null;
+        $mensagem = '';
+        $mensagem_tipo = '';
 
-        $vendido = $this->fabrica->vender($index);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $id = $_POST['carro'] ?? null;
 
-        if ($vendido) {
-            $_SESSION['mensagem'] = "Carro vendido com sucesso!";
-            $_SESSION['mensagem_tipo'] = 'sucesso';
-        } else {
-            $_SESSION['mensagem'] = "Selecione um carro válido.";
-            $_SESSION['mensagem_tipo'] = 'erro';
+            $vendido = $this->fabrica->vender($id);
+
+            if ($vendido) {
+                $mensagem = "Carro vendido com sucesso!";
+                $mensagem_tipo = 'sucesso';
+            } else {
+                $mensagem = "Selecione um carro válido.";
+                $mensagem_tipo = 'erro';
+            }
         }
-    }
 
-    $carros = $this->fabrica->listar();
-    include __DIR__ . '/../views/vender.php';
-    }   
+        $carros = $this->fabrica->listar();
+        include __DIR__ . '/../views/vender.php';
+    }
 
     public function listar()
     {

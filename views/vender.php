@@ -19,9 +19,9 @@
             <a href="index.php?acao=listar">Listar</a>
         </nav>
 
-        <?php if (!empty($_SESSION['mensagem'])): ?>
-            <div class="mensagem <?php echo htmlspecialchars($_SESSION['mensagem_tipo']); ?>">
-                <?php echo $_SESSION['mensagem']; unset($_SESSION['mensagem']); unset($_SESSION['mensagem_tipo']); ?>
+        <?php if (!empty($mensagem)): ?>
+            <div class="mensagem <?php echo htmlspecialchars($mensagem_tipo); ?>">
+                <?php echo $mensagem; ?>
             </div>
         <?php endif; ?>
 
@@ -33,8 +33,8 @@
             <label for="carro">Selecione o carro:</label>
 
             <select name="carro" required>
-                <?php foreach ($carros as $index => $carro): ?>
-                    <option value="<?= $index ?>">
+                <?php foreach ($carros as $carro): ?>
+                    <option value="<?= htmlspecialchars($carro->getId()); ?>">
                         <?= htmlspecialchars($carro->getModelo()) ?> (<?= htmlspecialchars($carro->getCor()) ?>)
                     </option>
                 <?php endforeach; ?>
